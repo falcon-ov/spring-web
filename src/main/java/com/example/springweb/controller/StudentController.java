@@ -1,19 +1,6 @@
 package com.example.springweb.controller;
 
-/*
-4. REST-контроллер
-
-Создать StudentController.
-Настроить базовый путь /api/students.
-
-Реализовать эндпоинты:
-GET /api/students — вернуть список всех студентов.
-GET /api/students/{id} — вернуть одного студента по ID.
-POST /api/students — создать нового студента (из JSON).
-PUT /api/students/{id} — обновить студента по ID.
-DELETE /api/students/{id} — удалить студента по ID.
- */
-
+import com.example.springweb.dto.StudentCreateDto;
 import com.example.springweb.model.Student;
 import com.example.springweb.model.User;
 import com.example.springweb.service.StudentService;
@@ -41,7 +28,7 @@ public class StudentController {
     }
 
     @PostMapping()
-    public Student createStudent(@RequestBody Student student){
+    public Student createStudent(@RequestBody StudentCreateDto student){
         return studentService.createStudent(student);
     }
 

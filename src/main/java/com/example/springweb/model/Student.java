@@ -1,9 +1,18 @@
 package com.example.springweb.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "students")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Student {
 
     @Id
@@ -13,45 +22,17 @@ public class Student {
     private int age;
     private String email ;
 
-    public Student(String name, int age, String email) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name="student_id"),
+            inverseJoinColumns = @JoinColumn(name="course_id")
+    )
+    @JsonManagedReference
+    private List<Course> courses;
 
-    public Student() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void addCourse(Course course){
+        courses.add(course);
+        course.getStudents().add(this);
+    };
 }
