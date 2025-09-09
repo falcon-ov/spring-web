@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,10 +23,13 @@ public class Course {
 
     @ManyToMany(mappedBy = "courses")
     @JsonBackReference
-    private List<Student> students;
+    private List<Student> students  = new ArrayList<>();;
 
-    public void addStudent(Student student){
-        students.add(student);
-        student.getCourses().add(this);
-    };
+    public void addStudent(Student student) {
+        if (!students.contains(student)) {
+            students.add(student);
+            student.getCourses().add(this);
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import com.example.springweb.dto.StudentCreateDto;
 import com.example.springweb.model.Student;
 import com.example.springweb.model.User;
 import com.example.springweb.service.StudentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,11 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id){
-        return studentService.getStudentById(id);
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id){
+        if(studentService.getStudentById(id) == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(studentService.getStudentById(id));
     }
 
     @PostMapping()

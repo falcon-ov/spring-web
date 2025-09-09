@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,10 +30,12 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name="course_id")
     )
     @JsonManagedReference
-    private List<Course> courses;
+    private List<Course> courses  = new ArrayList<>();;
 
-    public void addCourse(Course course){
-        courses.add(course);
-        course.getStudents().add(this);
-    };
+    public void addCourse(Course course) {
+        if (!courses.contains(course)) {
+            courses.add(course);
+            course.getStudents().add(this);
+        }
+    }
 }
